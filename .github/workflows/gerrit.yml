@@ -1,0 +1,21 @@
+name: gerrit
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  debug:
+    name: debug workflow
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: debug info
+        shell: bash
+        run: |
+          env
+
+      - name: Checkout ${{ github.event_name == 'workflow_dispatch' && github.head_ref || '' }}
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && github.head_ref || '' }}
