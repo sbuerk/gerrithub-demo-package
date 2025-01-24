@@ -16,10 +16,8 @@ review and maintenance work is done on that platform.
 > **Be aware** to replace the `john-doe` gerrithub/github user name with your username.
 
 ```shell
-mkdir -p ${HOME}/projects \
-  && cd ${HOME}/projects \
-  && git clone "ssh://john-doe@gerrithub.io:29418/sbuerk/gerrithub-demo-package" \
-  && ${HOME}/projects/gerrithub-demo-package
+git clone "ssh://john-doe@gerrithub.io:29418/sbuerk/gerrithub-demo-package" \
+  && cd gerrithub-demo-package
 ```
 
 **Clone from GitHub**
@@ -71,4 +69,30 @@ the original gerrit hook to have extended checks to ensure commit message requir
 ```shell
 cp Build/git-hooks/commit-msg .git/hooks/ \
   && chmod +x .git/hooks/commit-msg
+```
+
+**Simply pushing for a branch**
+
+It is possible to configure `<local-branch> <--> <gerrit-branch>` mappings for simply pushing on branches,
+for example pushing changes to gerrit remote branch you have to use following push command:
+
+```shell
+git push origin HEAD:refs/for/main
+```
+
+This can be simplified to automatically push to the configured remote branch for a branch,
+see following synopsis
+
+> SYNOPSIS: git config remote.origin.push +refs/heads/<local-branch>:refs/for/<remote-branch> 
+
+```shell
+git config remote.origin.push +refs/heads/main:refs/for/main
+```
+
+or some more examples:
+
+```shell
+git config remote.origin.push +refs/heads/1.x.x:refs/for/1.x.x
+git config remote.origin.push +refs/heads/13.4:refs/for/13.4
+git config remote.origin.push +refs/heads/dedicated-working-branch:refs/for/13.4
 ```
